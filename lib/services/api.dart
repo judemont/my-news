@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:my_news/models/crypto.dart';
 import 'package:my_news/models/news.dart';
 import 'dart:math';
 
@@ -34,4 +35,28 @@ Future<List<News>> getNews(
             description: news["description"],
           ))
       .toList();
+}
+
+Future<Crypto?> getCoinData(String coin, {String currency = "usd"}) async {
+  Map<String, dynamic> queryParams = {
+    "currency": currency,
+  };
+
+  Uri url = Uri.https('openapiv1.coinstats.app', "/coins/$coin", queryParams);
+
+  Uri requestURl =
+      Uri.https("futureofthe.tech", "/proxy", {"url": url.toString()});
+
+  var response = await http.get(requestURl);
+
+  var responseData = json.decode(response.body);
+
+  return Crypto(
+    id: responseData["id"],
+    name: responseData["name"],
+    symbol: responseData["symbol"],
+    logoUrl: responseData["icon"],
+    price: responseData["price"].toDouble(),
+    priceChangePercentageDay: (responseData["priceChange1d"] ?? 0).toDouble(),
+  );
 }

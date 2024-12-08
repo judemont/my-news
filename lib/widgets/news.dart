@@ -2,8 +2,10 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:my_news/models/crypto.dart';
 import 'package:my_news/models/news.dart';
 import 'package:my_news/services/api.dart';
+import 'package:my_news/widgets/cryptos.dart';
 
 class NewsPage extends StatefulWidget {
   const NewsPage({super.key});
@@ -14,15 +16,19 @@ class NewsPage extends StatefulWidget {
 
 class _NewsPageState extends State<NewsPage> {
   var newsDuration = const Duration(seconds: 20);
+  List<String> cryptosSelection = ["bitcoin", "ethereum", "dogecoin"];
   News news = News();
   List<News> newsList = [];
   bool isLoading = true;
+
+  List<Crypto> cryptos = [];
 
   @override
   void initState() {
     updateNews().then((_) {
       changeNews();
     });
+    loadCryptos();
 
     Timer.periodic(newsDuration, (timer) {
       if (newsList.isEmpty) {
@@ -37,9 +43,20 @@ class _NewsPageState extends State<NewsPage> {
     super.initState();
   }
 
-  Future<void> updateNews() async {
-    print("BB");
+  Future<void> loadCryptos() async {
+    List<Crypto> cryptos_ = [];
+    for (var crypto in cryptosSelection) {
+      Crypto? crypto_ = await getCoinData(crypto);
+      if (crypto_ != null) {
+        cryptos_.add(crypto_);
+      }
+    }
+    setState(() {
+      cryptos = cryptos_;
+    });
+  }
 
+  Future<void> updateNews() async {
     isLoading = true;
     List<News> newsList_ = await getNews();
     setState(() {
@@ -82,7 +99,7 @@ class _NewsPageState extends State<NewsPage> {
                   ),
                 ),
                 Align(
-                  alignment: const Alignment(0, 0.8),
+                  alignment: const Alignment(0, 0.7),
                   child: Text(
                     news.description ?? "",
                     textAlign: TextAlign.center,
@@ -90,6 +107,10 @@ class _NewsPageState extends State<NewsPage> {
                         fontSize: 45, backgroundColor: Colors.white),
                   ),
                 ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: CryptoView(cryptos: cryptos),
+                )
               ]));
   }
 }
