@@ -13,7 +13,7 @@ class NewsPage extends StatefulWidget {
 }
 
 class _NewsPageState extends State<NewsPage> {
-  var newsDuration = const Duration(seconds: 10);
+  var newsDuration = const Duration(seconds: 20);
   News news = News();
   List<News> newsList = [];
   bool isLoading = true;
