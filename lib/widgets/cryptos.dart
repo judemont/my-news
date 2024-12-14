@@ -19,26 +19,40 @@ class _CryptoViewState extends State<CryptoView> {
   @override
   Widget build(BuildContext context) {
     return Container(
+        width: double.infinity,
+        height: 70,
         padding: const EdgeInsets.all(10),
         decoration: const BoxDecoration(
-            color: Color.fromARGB(255, 255, 255, 255),
-            borderRadius: BorderRadius.all(Radius.circular(20))),
-        child: Wrap(
-            spacing: 50,
+          color: Color.fromARGB(255, 255, 255, 255),
+          // borderRadius: BorderRadius.all(Radius.circular(20))
+        ),
+        child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            // spacing: 60,
+            // spacing: 50,
             children: widget.cryptos
                 .map((crypto) => Container(
-                      child: Column(
+                      child: Wrap(
+                        spacing: 5,
                         children: [
                           Image.network(
                             crypto.logoUrl!,
-                            width: 25,
-                            height: 25,
+                            width: 45,
+                            height: 45,
                           ),
-                          Text(crypto.name!),
-                          Text(formatePrice(crypto.price, "\$").toString()),
                           Text(
-                            crypto.priceChangePercentageDay.toString(),
+                            crypto.name!,
+                            style: const TextStyle(fontSize: 30),
+                          ),
+                          Text(
+                            formatePrice(crypto.price, "\$").toString(),
+                            style: const TextStyle(fontSize: 30),
+                          ),
+                          Text(
+                            "${crypto.priceChangePercentageDay}%",
                             style: TextStyle(
+                                fontSize: 20,
                                 color: crypto.priceChangePercentageDay! > 0
                                     ? Colors.green
                                     : Colors.red),

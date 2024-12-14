@@ -16,7 +16,7 @@ class NewsPage extends StatefulWidget {
 
 class _NewsPageState extends State<NewsPage> {
   var newsDuration = const Duration(seconds: 20);
-  List<String> cryptosSelection = ["bitcoin", "ethereum", "dogecoin"];
+  List<String> cryptosSelection = ["bitcoin"];
   News news = News();
   List<News> newsList = [];
   bool isLoading = true;
@@ -31,6 +31,7 @@ class _NewsPageState extends State<NewsPage> {
     loadCryptos();
 
     Timer.periodic(newsDuration, (timer) {
+      loadCryptos();
       if (newsList.isEmpty) {
         updateNews().then((_) {
           changeNews();

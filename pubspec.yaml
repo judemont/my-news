@@ -37,6 +37,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   http: ^1.2.2
   intl: ^0.20.1
+  marquee: ^2.3.0
 
 dev_dependencies:
   flutter_test:
