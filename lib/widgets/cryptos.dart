@@ -19,7 +19,7 @@ class _CryptoViewState extends State<CryptoView> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         decoration: const BoxDecoration(
             color: Color.fromARGB(255, 255, 255, 255),
             borderRadius: BorderRadius.all(Radius.circular(20))),
