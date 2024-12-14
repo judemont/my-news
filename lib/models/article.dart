@@ -1,9 +1,9 @@
-class News {
+class Article {
   String? title;
   String? imgUrl;
   String? description;
 
-  News(
+  Article(
       {this.title,
       this.imgUrl,
       this.description});
